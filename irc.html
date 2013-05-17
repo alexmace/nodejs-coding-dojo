@@ -1,0 +1,23 @@
+<html>
+ <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+<body>
+	<script src="/socket.io/socket.io.js"></script>
+	<script>
+	var socket = io.connect('http://localhost:8080/');
+	socket.on('news', function (data) {
+		var messages = $('#messages');
+		messages.append(data.hello + '<br />');
+	});
+	var liveSubmit = function() {
+		var textInput = $("#textinput");
+		var valueToSend = textInput.val();
+		socket.emit('my other event', { my: valueToSend });
+		textInput.val('');
+		$('#messages').append('&lt;me> ' + valueToSend + '<br />');
+	}
+	</script>
+	<div id="messages"></div>
+	<input id="textinput" />
+	<input type="button" onClick="liveSubmit()" value="Click" />
+</body>
+</html>
